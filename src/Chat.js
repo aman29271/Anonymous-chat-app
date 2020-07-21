@@ -31,6 +31,7 @@ class Chat {
     });
     this.socket.on("partnerLeft", () => {
       mainPage.style.display = "none";
+      this._removeChild(document.getElementById("msgContainer"));
       landingPage.style.display = "block";
       overlayBtn.classList.remove("is-loading");
       overlayBtn.textContent = "Start";
@@ -41,7 +42,7 @@ class Chat {
       }
     });
     this.socket.on("error", function (err) {
-      console.log('error occured')
+      console.log("error occured");
       if (document.getElementById("loginWrapper").style.display == "none") {
         document.getElementById("status").textContent = "!fail to connect :(";
       } else {
@@ -110,6 +111,11 @@ class Chat {
       },
       false
     );
+  }
+  _removeChild(node) {
+    [].slice.call(node.children).forEach((e) => {
+      node.removeChild(e);
+    });
   }
   _displayNewMsg(user, msg, direction) {
     const container = document.getElementById("msgContainer");

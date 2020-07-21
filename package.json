@@ -9,7 +9,7 @@
     "build": "webpack -p",
     "start": "node ./src/index.js",
     "preserver": "mkdir -p build && cp -r src/assets/* build/",
-    "server": "yarn dev && nodemon src/index.js"
+    "server": "nodemon src/index.js"
   },
   "dependencies": {
     "express": "^4.17.1",
