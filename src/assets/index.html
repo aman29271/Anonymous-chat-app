@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" href="favicon.ico" type="image/x-icon" />
+    <meta name="description" content="Anonymous Chat with Strangers " />
+    <title>Anonymous chat App</title>
+    <link rel="stylesheet" href="bulma.css" />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <section class="section hero is-fulheight is-info" id="landingPage">
+      <div class="hero">
+        <div class="hero-body">
+          <div class="container has-text-centered">
+            <p class="title is-spaced">
+              Please Enter a name
+            </p>
+            <div class="field">
+              <div class="control">
+                <input
+                  type="text"
+                  class="input"
+                  placeholder="Name"
+                  required
+                  id="name"
+                />
+              </div>
+            </div>
+            <div class="is-danger" style="display: none; color: red;" id="info">
+              <span class="span">Name Already Taken</span>
+            </div>
+            <div class="field">
+              <div class="control">
+                <button class="button is-link" id="overlayBtn">Start</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section
+      class="section is-fullwidth has-background-grey-light"
+      id="mainPage"
+      style="display: none;"
+    >
+      <div class="container is-mobile">
+        <div class="columns">
+          <div
+            class="column is-6 is-offset-3 has-background-grey-lighter add-column"
+          >
+            <div class="title is-3 has-text-centered is-spaced">
+              Welcome to Anonymous Chat App
+            </div>
+            <div
+              class="subtitle is-5 has-text-centered is-spaced"
+              id="subtitle"
+            >
+              Hello Aman.
+            </div>
+            <div class="subtitle is-6 has-text-centered" id="otherUser">
+              Congrats. You are connected to Name
+            </div>
+            <div id="msgContainer"></div>
+            <div class="field has-addons">
+              <div class="control add-control">
+                <input
+                  id="inputText"
+                  type="text"
+                  class="input"
+                  placeholder="Type Message Here"
+                  required
+                />
+              </div>
+              <div class="control">
+                <button class="button is-link" id="btnSend">Send</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <p style="position: fixed; bottom: 10px; left: 10px;" id="onlineCount">
+      Users :
+    </p>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/bundle.js"></script>
+  </body>
+</html>
