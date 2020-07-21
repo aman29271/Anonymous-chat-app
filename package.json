@@ -7,7 +7,7 @@
     "dev": "webpack --watch",
     "prebuild": "yarn preserver",
     "build": "webpack -p",
-    "start": "yarn build && node src/index.js",
+    "start": "node src/index.js",
     "preserver": "mkdir -p build && cp -r src/assets/* build/",
     "server": "yarn dev && nodemon src/index.js"
   },
