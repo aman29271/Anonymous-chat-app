@@ -48,7 +48,6 @@ io.sockets.on("connection", function (socket) {
         const otherUserSocket = sockets[socket.otherUserId];
         otherUserSocket.emit("partnerLeft");
         delete sockets[socket.id];
-        priorityQuque.push(otherUserSocket.id);
       } else {
         delete sockets[socket.id];
       }
@@ -62,30 +61,23 @@ io.sockets.on("connection", function (socket) {
     const otherUserSocket = sockets[socket.otherUserId];
     otherUserSocket.emit("newMsg", socket.nickname, msg);
   });
+
   function findPairForUser() {
     while (priorityQuque.length > 1) {
       if (pairedUser.set(pairCount, [priorityQuque[0], priorityQuque[1]], 0)) {
         const userSocket = sockets[priorityQuque[0]];
         const otherUserSocket = sockets[priorityQuque[1]];
         pairCount++;
-        userSocket.isPaired = true;
-        userSocket.pairCount = pairCount;
-        userSocket.otherUserId = priorityQuque[1];
-        otherUserSocket.isPaired = true;
-        otherUserSocket.pairCount = pairCount;
-        otherUserSocket.otherUserId = priorityQuque[0];
+        prepareForPairing(userSocket, otherUserSocket);
+        prepareForPairing(otherUserSocket, userSocket);
         priorityQuque.splice(0, 2);
-        userSocket.emit(
-          "gotAPair",
-          userSocket.nickname,
-          otherUserSocket.nickname
-        );
-        otherUserSocket.emit(
-          "gotAPair",
-          otherUserSocket.nickname,
-          userSocket.nickname
-        );
       }
     }
+  }
+  function prepareForPairing(soc, othersoc) {
+    soc.isPaired = true;
+    soc.pairCount = pairCount;
+    soc.otherUserId = othersoc.id;
+    soc.emit("gotAPair",soc.nickname,othersoc.nickname)
   }
 });

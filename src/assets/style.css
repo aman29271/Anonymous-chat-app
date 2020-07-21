@@ -77,6 +77,12 @@ form button {
 .right-aligned {
   margin: 0px 0px 0px auto;
 }
-#msgContainer{
+#msgContainer {
   line-height: 1.5;
+}
+#notification {
+  position: fixed;
+  bottom: 40px;
+  left: 40px;
+  display: none;
 }

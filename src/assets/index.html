@@ -20,13 +20,7 @@
             </p>
             <div class="field">
               <div class="control">
-                <input
-                  type="text"
-                  class="input"
-                  placeholder="Name"
-                  required
-                  id="name"
-                />
+                <input type="text" class="input" placeholder="Name" required id="name" />
               </div>
             </div>
             <div class="is-danger" style="display: none; color: red;" id="info">
@@ -41,23 +35,14 @@
         </div>
       </div>
     </section>
-    <section
-      class="section is-fullwidth has-background-grey-light"
-      id="mainPage"
-      style="display: none;"
-    >
+    <section class="section is-fullwidth has-background-grey-light" id="mainPage" style="display: none;">
       <div class="container is-mobile">
         <div class="columns">
-          <div
-            class="column is-6 is-offset-3 has-background-grey-lighter add-column"
-          >
+          <div class="column is-6 is-offset-3 has-background-grey-lighter add-column">
             <div class="title is-3 has-text-centered is-spaced">
               Welcome to Anonymous Chat App
             </div>
-            <div
-              class="subtitle is-5 has-text-centered is-spaced"
-              id="subtitle"
-            >
+            <div class="subtitle is-5 has-text-centered is-spaced" id="subtitle">
               Hello Aman.
             </div>
             <div class="subtitle is-6 has-text-centered" id="otherUser">
@@ -66,13 +51,7 @@
             <div id="msgContainer"></div>
             <div class="field has-addons">
               <div class="control add-control">
-                <input
-                  id="inputText"
-                  type="text"
-                  class="input"
-                  placeholder="Type Message Here"
-                  required
-                />
+                <input id="inputText" type="text" class="input" placeholder="Type Message Here" required />
               </div>
               <div class="control">
                 <button class="button is-link" id="btnSend">Send</button>
@@ -82,6 +61,10 @@
         </div>
       </div>
     </section>
+    <div class="notification" id="notification">
+      <button class="delete" id="close_btn"></button>
+      <div></div>
+    </div>
     <p style="position: fixed; bottom: 10px; left: 10px;" id="onlineCount">
       Users :
     </p>
