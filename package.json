@@ -13,10 +13,10 @@
   },
   "dependencies": {
     "express": "^4.17.1",
+    "node-cache": "^5.1.2",
     "socket.io": "^2.3.0"
   },
   "devDependencies": {
-    "node-cache": "^5.1.2",
     "nodemon": "^2.0.4",
     "webpack": "^4.43.0",
     "webpack-cli": "^3.3.12"
