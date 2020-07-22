@@ -27,7 +27,7 @@ function startup() {
   startbutton = document.getElementById("startbutton");
 
   navigator.mediaDevices
-    .getUserMedia({ video: true, audio: false })
+    .getUserMedia({ video: { facingMode: "user" }, audio: false })
     .then(function (stream) {
       mediaStream = stream;
       video.srcObject = stream;
