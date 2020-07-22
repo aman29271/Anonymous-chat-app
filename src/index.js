@@ -4,7 +4,6 @@ const app = new express();
 const server = http.createServer(app);
 const io = require("socket.io")(server);
 const path = require("path");
-const crypto = require("crypto");
 
 const { pairedUser } = require("./db");
 
@@ -26,19 +25,14 @@ io.sockets.on("connection", function (socket) {
   io.sockets.emit("system", userCount);
   socket.on("login", function (nickname) {
     //socket.userIndex = users.length;
-    crypto.randomBytes(12, (err, buf) => {
-      if (err) throw err;
-      const id = buf.toString("hex");
-      socket.id = id;
-      sockets[socket.id] = socket;
-      socket.nickname = nickname;
-      socket.isPaired = false;
-      socket.pairCount = "";
-      socket.otherUserId = "";
-      priorityQuque.push(id);
-      socket.emit("loginSuccess");
-      findPairForUser();
-    });
+    sockets[socket.id] = socket;
+    socket.nickname = nickname;
+    socket.isPaired = false;
+    socket.pairCount = "";
+    socket.otherUserId = "";
+    priorityQuque.push(socket.id);
+    socket.emit("loginSuccess");
+    findPairForUser();
   });
   //user leaves
   socket.on("disconnect", function () {
