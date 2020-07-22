@@ -10,7 +10,7 @@ section.section .container,
 section.section .container .columns,
 section.section .container .columns .column {
   min-height: 320px;
-  height: 100%;
+  /* height: 100%; */
 }
 body {
   font: 13px Helvetica, Arial;
@@ -77,8 +77,18 @@ form button {
 .right-aligned {
   margin: 0px 0px 0px auto;
 }
+.navigation#simpleNavbar{
+  display: flex;
+  width: 100%;
+  margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+.navigation#simpleNavbar div{
+  flex: 1 0 auto;
+}
 #msgContainer {
   line-height: 1.5;
+  margin-bottom: 3rem;
 }
 #notification {
   position: fixed;
@@ -89,10 +99,10 @@ form button {
 #simpleNavbar {
   display: none;
 }
-#modal-bis .modal-content{
-overflow: unset;
+#modal-bis .modal-content {
+  overflow: unset;
 }
-#modal-bis .column{
+#modal-bis .column {
   text-align: center;
 }
 

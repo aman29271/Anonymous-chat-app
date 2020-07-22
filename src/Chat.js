@@ -40,9 +40,8 @@ class Chat {
       [modal, overlayBtn].forEach((e) => {
         e.classList.remove("is-active");
       });
-      [navbar, mainPage].forEach((e) => {
-        e.style.display = "block";
-      });
+      mainPage.style.display = "block";
+      navbar.style.display = "flex";
       landingPage.style.display = "none";
       const mainUser = document.getElementById("subtitle");
       mainUser.textContent = `Welcome ${user}`;

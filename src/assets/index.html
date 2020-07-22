@@ -11,23 +11,7 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <nav class="navbar" id="simpleNavbar">
-      <div class="container">
-        <div class="navbar-menu is-active">
-          <div class="navbar-start">
-            <div class="navbar-item">
-              <a class="button is-danger" id="exit">Exit</a>
-            </div>
-          </div>
-          <div class="navbar-end">
-            <div class="navbar-item">
-              <a class="button is-success" id="next">Next</a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </nav>
-    <section class="section hero is-fulheight is-info" id="landingPage">
+    <section class="section hero is-fullheight is-info" id="landingPage">
       <div class="hero">
         <div class="hero-body">
           <div class="container has-text-centered">
@@ -55,6 +39,10 @@
       <div class="container is-mobile">
         <div class="columns">
           <div class="column is-6 is-offset-3 has-background-grey-lighter add-column">
+            <div class="navigation" id="simpleNavbar">
+              <div style="text-align: left;"><a class="button is-danger" id="exit">Exit</a></div>
+              <div style="text-align: right;"><a class="button is-success" id="next">Next</a></div>
+            </div>
             <div class="title is-3 has-text-centered is-spaced">
               Welcome to Anonymous Chat App
             </div>
