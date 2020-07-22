@@ -11,6 +11,22 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
+    <nav class="navbar" id="simpleNavbar">
+      <div class="container">
+        <div class="navbar-menu is-active">
+          <div class="navbar-start">
+            <div class="navbar-item">
+              <a class="button is-danger" id="exit">Exit</a>
+            </div>
+          </div>
+          <div class="navbar-end">
+            <div class="navbar-item">
+              <a class="button is-success" id="next">Next</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </nav>
     <section class="section hero is-fulheight is-info" id="landingPage">
       <div class="hero">
         <div class="hero-body">
@@ -68,6 +84,15 @@
     <p style="position: fixed; bottom: 10px; left: 10px;" id="onlineCount">
       Users :
     </p>
+    <div class="modal" id="modal">
+      <div class="modal-background"></div>
+      <div class="modal-content">
+        <div class="box">
+          <h3 class="title is-4 is-spaced has-text-centered">Finding Partner...</h3>
+          <progress class="progress" max="100">15%</progress>
+        </div>
+      </div>
+    </div>
     <script src="/socket.io/socket.io.js"></script>
     <script src="/bundle.js"></script>
   </body>

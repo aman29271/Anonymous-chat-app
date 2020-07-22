@@ -86,3 +86,6 @@ form button {
   left: 40px;
   display: none;
 }
+#simpleNavbar {
+  display: none;
+}

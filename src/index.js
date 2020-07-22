@@ -46,13 +46,13 @@ io.sockets.on("connection", function (socket) {
       if (socket.isPaired) {
         pairedUser.del(socket.pairCount);
         const otherUserSocket = sockets[socket.otherUserId];
-        otherUserSocket.emit("partnerLeft");
+        otherUserSocket.emit("partnerLeft", "Your Partner Left.");
         delete sockets[socket.id];
+        cleanupPair(otherUserSocket);
       } else {
         delete sockets[socket.id];
       }
     }
-
     userCount--;
     socket.broadcast.emit("system", userCount);
   });
@@ -60,6 +60,23 @@ io.sockets.on("connection", function (socket) {
   socket.on("postMsg", function (msg) {
     const otherUserSocket = sockets[socket.otherUserId];
     otherUserSocket.emit("newMsg", socket.nickname, msg);
+  });
+
+  socket.on("findAnotherPair", () => {
+    pairedUser.del(socket.pairCount);
+    cleanupPair(sockets[socket.otherUserId]);
+    sockets[socket.otherUserId].emit("partnerLeft", "Your Partner left.");
+    cleanupPair(socket);
+    priorityQuque.push(socket.id);
+    findPairForUser();
+  });
+
+  socket.on("getMeOut", () => {
+    pairedUser.del(socket.pairCount);
+    cleanupPair(sockets[socket.otherUserId]);
+    socket.emit("partnerLeft", "You have successfully left the room.");
+    sockets[socket.otherUserId].emit("partnerLeft", "Your partner has left.");
+    cleanupPair(socket);
   });
 
   function findPairForUser() {
@@ -74,10 +91,17 @@ io.sockets.on("connection", function (socket) {
       }
     }
   }
-  function prepareForPairing(soc, othersoc) {
-    soc.isPaired = true;
-    soc.pairCount = pairCount;
-    soc.otherUserId = othersoc.id;
-    soc.emit("gotAPair",soc.nickname,othersoc.nickname)
+
+  function prepareForPairing(e, f) {
+    e.isPaired = true;
+    e.pairCount = pairCount;
+    e.otherUserId = f.id;
+    e.emit("gotAPair", e.nickname, f.nickname);
+  }
+
+  function cleanupPair(e) {
+    e.isPaired = false;
+    e.pairCount = "";
+    e.otherUserId = "";
   }
 });
