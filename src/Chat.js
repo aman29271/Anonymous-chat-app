@@ -1,3 +1,5 @@
+const { startup, stopStreaming } = require("./capture");
+
 class Chat {
   constructor() {
     this.socket = io.connect();
@@ -14,6 +16,11 @@ class Chat {
     const exitBtn = document.getElementById("exit");
     const navbar = document.getElementById("simpleNavbar");
     const modal = document.getElementById("modal");
+    const cameraBtn = document.getElementById("cameraBtn");
+    const modalBis = document.getElementById("modal-bis");
+    const modalBisCloseBtn = document.getElementById("modal-bis-close-btn");
+    const displayedPic = document.getElementById("photo");
+
     let that = this;
     let timer;
     this.socket.on("connect", () => {
@@ -101,6 +108,7 @@ class Chat {
       },
       false
     );
+
     document.getElementById("close_btn").addEventListener("click", () => {
       notification.style.display = "none";
     });
@@ -110,6 +118,26 @@ class Chat {
     messageInput.addEventListener("input", () => {
       that.socket.emit("postMsg", { msg: "", typing: true });
     });
+    cameraBtn.addEventListener("click", () => {
+      modalBis.classList.add("is-active");
+      startup();
+    });
+    modalBisCloseBtn.addEventListener("click", () => {
+      modalBis.classList.remove("is-active");
+      displayedPic.setAttribute("src", "");
+      stopStreaming();
+    });
+    document.getElementById("imageBtn").addEventListener(
+      "click",
+      () => {
+        if (displayedPic.src !== "") {
+          that.socket.emit("postMsg", { msg: "", img: displayedPic.src, typing: false });
+          that._displayNewMsg("me", { msg: "", img: displayedPic.src, typing: false });
+          modalBisCloseBtn.click();
+        }
+      },
+      false
+    );
 
     function loginHandler(e) {
       if (isNaN(Number(e.keyCode)) || e.keyCode === 13) {
@@ -167,22 +195,39 @@ class Chat {
           HTML.innerHTML = html;
           container.appendChild(HTML);
         }
-
       } else {
-        if (leftMsg.length == 0 || leftLastChild.textContent === `${user}: typing...`) {
-          // remove typing child
-          container.removeChild(leftLastChild);
-          html = `<span class="span"><strong>${user}: </strong></span><span class="span">${msg.msg}</span>`;
+        if ("img" in msg) {
+          // it's an image
+          const img = new Image();
+          img.onload = function () {
+            container.appendChild(img);
+          };
+          img.src = msg.img;
         } else {
-          html = `<span class="span"><strong>${user}: </strong></span><span class="span">${msg.msg}</span>`;
+          if (leftMsg.length == 0 || leftLastChild.textContent === `${user}: typing...`) {
+            // remove typing child
+            container.removeChild(leftLastChild);
+            html = `<span class="span"><strong>${user}: </strong></span><span class="span">${msg.msg}</span>`;
+          } else {
+            html = `<span class="span"><strong>${user}: </strong></span><span class="span">${msg.msg}</span>`;
+          }
+          HTML.innerHTML = html;
+          container.appendChild(HTML);
         }
-        HTML.innerHTML = html;
-        container.appendChild(HTML);
       }
     } else {
-      ["has-text-right", "is-size-6", "right-aligned"].forEach((e) => HTML.classList.add(e));
-      HTML.innerHTML = `<span class="span">${msg.msg}</span>`;
-      container.appendChild(HTML);
+      if ("img" in msg) {
+        // it's an image
+        const img = new Image();
+        img.onload = function () {
+          container.appendChild(img);
+        };
+        img.src = msg.img;
+      } else {
+        ["has-text-right", "is-size-6", "right-aligned"].forEach((e) => HTML.classList.add(e));
+        HTML.innerHTML = `<span class="span">${msg.msg}</span>`;
+        container.appendChild(HTML);
+      }
     }
   }
 }

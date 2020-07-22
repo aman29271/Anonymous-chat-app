@@ -70,7 +70,10 @@
                 <input id="inputText" type="text" class="input" placeholder="Type Message Here" required />
               </div>
               <div class="control">
-                <button class="button is-link" id="btnSend">Send</button>
+                <div class="buttons has-addons">
+                  <button class="button" id="cameraBtn">Camera</button>
+                  <button class="button is-link" id="btnSend">Send</button>
+                </div>
               </div>
             </div>
           </div>
@@ -92,6 +95,27 @@
           <progress class="progress" max="100">15%</progress>
         </div>
       </div>
+    </div>
+    <div class="modal" id="modal-bis">
+      <div class="modal-background has-background-grey-lighter"></div>
+      <div class="modal-content">
+        <div class="columns">
+          <div class="column">
+            <div class="camera">
+              <video id="video">Video stream not available.</video>
+              <button id="startbutton" class="button is-primary is-rounded">Take photo</button>
+              <button class="button is-info" id="imageBtn">Send</button>
+            </div>
+            <canvas id="canvas"> </canvas>
+          </div>
+          <div class="column">
+            <div class="output">
+              <img id="photo" alt="The screen capture will appear in this box." />
+            </div>
+          </div>
+        </div>
+      </div>
+      <button class="modal-close is-large" aria-label="close" id="modal-bis-close-btn"></button>
     </div>
     <script src="/socket.io/socket.io.js"></script>
     <script src="/bundle.js"></script>
