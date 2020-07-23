@@ -42,8 +42,8 @@
             class="column is-6-desktop is-8-tablet is-offset-3-desktop is-offset-2-tablet has-background-grey-lighter add-column"
           >
             <div class="navigation" id="simpleNavbar">
-              <div style="text-align: left;"><a class="button is-danger" id="exit">Exit</a></div>
-              <div style="text-align: right;"><a class="button is-success" id="next">Next</a></div>
+              <div style="text-align: left;"><a class="button is-danger" id="exitBtn">Exit</a></div>
+              <div style="text-align: right;"><a class="button is-success" id="nextBtn">Next</a></div>
             </div>
             <div class="title is-3 has-text-centered is-spaced">
               Welcome to Anonymous Chat App
@@ -106,6 +106,26 @@
         </div>
       </div>
       <button class="modal-close is-large" aria-label="close" id="modal-bis-close-btn"></button>
+    </div>
+    <div class="modal" id="modal-tris">
+      <div class="modal-background"></div>
+      <div class="modal-content">
+        <div class="box">
+          <h3 class="title is-4 is-spaced has-text-centered">Are you sure you want to exit this page?</h3>
+          <button class="button is-danger" id="exit">Yes</button>
+          <button class="button" id="cancel-exit">Cancel</button>
+        </div>
+      </div>
+    </div>
+    <div class="modal" id="modal-quar">
+      <div class="modal-background"></div>
+      <div class="modal-content">
+        <div class="box">
+          <h3 class="title is-4 is-spaced has-text-centered">Are you sure you want to leave this page?</h3>
+          <button class="button is-danger" id="next">Yes</button>
+          <button class="button" id="cancel-next">Cancel</button>
+        </div>
+      </div>
     </div>
     <script src="/socket.io/socket.io.js"></script>
     <script src="/bundle.js"></script>

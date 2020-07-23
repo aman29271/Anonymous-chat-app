@@ -37,6 +37,7 @@ class Chat {
     });
 
     this.socket.on("gotAPair", (user, otherUser) => {
+      notification.style.display = "none";
       [modal, overlayBtn].forEach((e) => {
         e.classList.remove("is-active");
       });
@@ -62,6 +63,10 @@ class Chat {
       div.textContent = "";
     });
 
+    this.socket.on("notification", (msg, code) => {
+      displayNotification(msg, code);
+    });
+
     this.socket.on("disconnect", () => {
       console.log("socket disconnected");
     });
@@ -69,10 +74,7 @@ class Chat {
     this.socket.once("connect_error", function () {
       // pause your timer
       console.log("connect error");
-      notification.classList.add("is-danger");
-      const div = document.querySelector("#notification div");
-      div.textContent = `No internet connection.`;
-      notification.style.display = "block";
+      displayNotification("No internet connection.", "danger");
     });
 
     this.socket.on("system", function (userCount) {
@@ -84,6 +86,7 @@ class Chat {
     });
 
     nextBtn.addEventListener("click", () => {
+      document.getElementById("modal-quar").classList.remove("is-active");
       that.socket.emit("findAnotherPair");
       modal.classList.add("is-active");
       // clear your timer
@@ -91,6 +94,7 @@ class Chat {
     });
 
     exitBtn.addEventListener("click", () => {
+      document.getElementById("modal-tris").classList.remove("is-active");
       // clear your timer
       that.socket.emit("getMeOut");
     });
@@ -138,6 +142,12 @@ class Chat {
       false
     );
 
+    function displayNotification(msg, type) {
+      type === "danger" && notification.classList.add("is-danger");
+      const div = document.querySelector("#notification div");
+      div.textContent = msg;
+      notification.style.display = "block";
+    }
     function loginHandler(e) {
       if (isNaN(Number(e.keyCode)) || e.keyCode === 13) {
         var nickName = document.getElementById("name").value;
@@ -158,6 +168,9 @@ class Chat {
       }
     }
     function displayMessageOnLogin(msg) {
+      if (notification.style.display == "block") {
+        notification.style.display = "none";
+      }
       mainPage.style.display = "none";
       that._removeChild(document.getElementById("msgContainer"));
       landingPage.style.display = "block";

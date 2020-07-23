@@ -57,20 +57,24 @@ io.sockets.on("connection", function (socket) {
   });
 
   socket.on("findAnotherPair", () => {
-    pairedUser.del(socket.pairCount);
-    cleanupPair(sockets[socket.otherUserId]);
-    sockets[socket.otherUserId].emit("partnerLeft", "Your Partner left.");
-    cleanupPair(socket);
+    if (socket.isPaired) {
+      pairedUser.del(socket.pairCount);
+      cleanupPair(sockets[socket.otherUserId]);
+      sockets[socket.otherUserId].emit("notification", "Your Partner left.", "danger");
+      cleanupPair(socket);
+    }
     priorityQuque.push(socket.id);
     findPairForUser();
   });
 
   socket.on("getMeOut", () => {
-    pairedUser.del(socket.pairCount);
-    cleanupPair(sockets[socket.otherUserId]);
+    if(socket.isPaired){
+      pairedUser.del(socket.pairCount);
+      cleanupPair(sockets[socket.otherUserId]);
+      sockets[socket.otherUserId].emit("partnerLeft", "Your partner has left.");
+      cleanupPair(socket);
+    }
     socket.emit("partnerLeft", "You have successfully left the room.");
-    sockets[socket.otherUserId].emit("partnerLeft", "Your partner has left.");
-    cleanupPair(socket);
   });
 
   function findPairForUser() {
