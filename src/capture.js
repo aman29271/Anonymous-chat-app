@@ -46,7 +46,9 @@ function startup() {
       })
       .forEach((cameraOption) => listElement.add(cameraOption));
     listElement.addEventListener("onchange", (e) => {
+      stopStreaming();
       constraints.video.deviceId = e.target.value;
+      startStreaming();
     });
   }
 
@@ -67,17 +69,19 @@ function startup() {
     updateCameraList(newCameraList);
   });
 
-  navigator.mediaDevices
-    .getUserMedia(constraints)
-    .then(function (stream) {
-      mediaStream = stream;
-      video.srcObject = stream;
-      video.play();
-    })
-    .catch(function (err) {
-      console.log("An error occurred: " + err);
-    });
-
+  function startStreaming() {
+    navigator.mediaDevices
+      .getUserMedia(constraints)
+      .then(function (stream) {
+        mediaStream = stream;
+        video.srcObject = stream;
+        video.play();
+      })
+      .catch(function (err) {
+        console.log("An error occurred: " + err);
+      });
+  }
+  startStreaming();
   video.addEventListener(
     "canplay",
     function (ev) {
