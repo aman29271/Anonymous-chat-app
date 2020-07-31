@@ -45,7 +45,7 @@ function startup() {
         return cameraOption;
       })
       .forEach((cameraOption) => listElement.add(cameraOption));
-    listElement.addEventListener("onchange", (e) => {
+    listElement.addEventListener("change", (e) => {
       stopStreaming();
       constraints.video.deviceId = e.target.value;
       startStreaming();
