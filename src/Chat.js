@@ -1,4 +1,5 @@
 const { startup, stopStreaming } = require("./capture");
+const timer = require("./timer");
 
 class Chat {
   constructor() {
@@ -20,9 +21,9 @@ class Chat {
     const modalBis = document.getElementById("modal-bis");
     const modalBisCloseBtn = document.getElementById("modal-bis-close-btn");
     const displayedPic = document.getElementById("photo");
-
+    const timerHTML = document.getElementById("timer");
+    let countdown;
     let that = this;
-    let timer;
     this.socket.on("connect", () => {
       document.getElementById("name").focus();
       navbar.style.display = "none";
@@ -47,10 +48,17 @@ class Chat {
       const mainUser = document.getElementById("subtitle");
       mainUser.textContent = `Welcome ${user}`;
       document.getElementById("otherUser").textContent = `Congrats. You are connected to ${otherUser}`;
+      messageInput.disabled = false;
+      clearInterval(countdown);
+      document.getElementById("timer").textContent = "";
       // register your timer here;
+      countdown = timer(function () {
+        that.socket.emit("timer expired");
+      }).ref;
     });
 
     this.socket.on("partnerLeft", (msg) => {
+      clearTimer();
       // clear your timer
       displayMessageOnLogin(msg);
     });
@@ -64,11 +72,8 @@ class Chat {
     });
 
     this.socket.on("notification", (msg, code) => {
+      clearTimer();
       displayNotification(msg, code);
-    });
-
-    this.socket.on("disconnect", () => {
-      console.log("socket disconnected");
     });
 
     this.socket.once("connect_error", function () {
@@ -90,6 +95,7 @@ class Chat {
       that.socket.emit("findAnotherPair");
       modal.classList.add("is-active");
       // clear your timer
+      clearTimer();
       that._removeChild(document.getElementById("msgContainer"));
     });
 
@@ -142,8 +148,16 @@ class Chat {
       false
     );
 
+    function clearTimer() {
+      clearInterval(countdown);
+      timerHTML.textContent = "";
+    }
+
     function displayNotification(msg, type) {
-      type === "danger" && notification.classList.add("is-danger");
+      if (type === "danger") {
+        messageInput.disabled = true;
+        notification.classList.add("is-danger");
+      }
       const div = document.querySelector("#notification div");
       div.textContent = msg;
       notification.style.display = "block";

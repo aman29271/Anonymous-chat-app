@@ -7,7 +7,7 @@
     <link rel="icon" href="favicon.ico" type="image/x-icon" />
     <meta name="description" content="Anonymous Chat with Strangers " />
     <title>Anonymous chat App</title>
-    <link rel="stylesheet" href="bulma.css" />
+    <link rel="stylesheet" href="bulma.min.css" />
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
@@ -51,9 +51,10 @@
             <div class="subtitle is-5 has-text-centered is-spaced" id="subtitle">
               Hello Aman.
             </div>
-            <div class="subtitle is-6 has-text-centered" id="otherUser">
+            <div class="subtitle has-text-centered" id="otherUser">
               Congrats. You are connected to Name
             </div>
+            <div class="subtitle has-text-centered" id="timer"></div>
             <div id="msgContainer"></div>
             <div class="field has-addons">
               <div class="control add-control">
@@ -94,7 +95,18 @@
             <div class="camera">
               <video id="video">Video stream not available.</video>
               <button id="startbutton" class="button is-primary is-rounded">Take photo</button>
-              <button class="button is-info" id="imageBtn">Send</button>
+              <div class="field">
+                <div class="control">
+                  <div class="select">
+                    <select id="availableCameras"></select>
+                  </div>
+                </div>
+              </div>
+              <div class="field">
+                <div class="control">
+                  <button class="button is-info" id="imageBtn">Send</button>
+                </div>
+              </div>
             </div>
             <canvas id="canvas"> </canvas>
           </div>
