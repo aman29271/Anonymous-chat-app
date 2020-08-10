@@ -71,19 +71,13 @@ form button {
 .add-columns .column {
   max-width: 30ch;
 }
-.left-aligned {
-  margin: 0px auto 0px 0px;
-}
-.right-aligned {
-  margin: 0px 0px 0px auto;
-}
-.navigation#simpleNavbar{
+.navigation#simpleNavbar {
   display: flex;
   width: 100%;
   margin-top: 0.5rem;
   margin-bottom: 1.5rem;
 }
-.navigation#simpleNavbar div{
+.navigation#simpleNavbar div {
   flex: 1 0 auto;
 }
 #msgContainer {
@@ -105,7 +99,25 @@ form button {
 #modal-bis .column {
   text-align: center;
 }
-
+.field .control .msg {
+  padding: 4px 8px;
+  border-radius: 4px;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  -ms-border-radius: 4px;
+  -o-border-radius: 4px;
+}
+.control.custom {
+  max-width: 70%;
+}
+.field.has-text-right .control.custom {
+  margin: 0px 0px 0px auto;
+}
+@media (max-width: 768px) {
+  .section.hero.chat {
+    padding: 0px;
+  }
+}
 /* from mozilla-cdn */
 #video {
   border: 1px solid black;

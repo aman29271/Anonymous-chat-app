@@ -24,9 +24,51 @@ class Chat {
     const timerHTML = document.getElementById("timer");
     let countdown;
     let that = this;
+    let firstTime = true;
+
     this.socket.on("connect", () => {
       document.getElementById("name").focus();
-      navbar.style.display = "none";
+      // navbar.style.display = "none";
+      if (!firstTime) {
+        if (this.socket.connected) {
+          this.socket.emit("previous id", {
+            id: localStorage.getItem("socketId"),
+            nickname: localStorage.getItem("nickname"),
+          });
+        }
+      } else {
+        localStorage.removeItem("socketId");
+        localStorage.removeItem("nickname");
+      }
+    });
+
+    this.socket.on("disconnect", (reason) => {
+      if (reason === "io server disconnect") {
+        // the disconnection was initiated by the server, you need to reconnect manually
+        this.socket.connect();
+      } else {
+        // else the socket will automatically try to reconnect
+      }
+      console.log("socket disconnected");
+    });
+
+    this.socket.on("reconnect", () => {
+      console.log("reconnected.");
+      notification.style.display = "none";
+      notification.classList.remove("is-danger");
+      const div = document.querySelector("#notification div");
+      div.textContent = "";
+    });
+
+    this.socket.on("reconnecting", () => {
+      displayNotification("Reconnecting...", "info");
+      console.log("Reconnecting... to server");
+    });
+
+    this.socket.once("connect_error", function () {
+      // pause your timer
+      console.log("connect error");
+      displayNotification("No internet connection.", "danger");
     });
 
     this.socket.on("loginSuccess", () => {
@@ -46,8 +88,8 @@ class Chat {
       navbar.style.display = "flex";
       landingPage.style.display = "none";
       const mainUser = document.getElementById("subtitle");
-      mainUser.textContent = `Welcome ${user}`;
-      document.getElementById("otherUser").textContent = `Congrats. You are connected to ${otherUser}`;
+      mainUser.textContent = user;
+      document.getElementById("otherUser").textContent = otherUser;
       messageInput.disabled = false;
       clearInterval(countdown);
       document.getElementById("timer").textContent = "";
@@ -55,6 +97,8 @@ class Chat {
       countdown = timer(function () {
         that.socket.emit("timer expired");
       }).ref;
+      localStorage.setItem("socketId", this.socket.id);
+      localStorage.setItem("nickname", user);
     });
 
     this.socket.on("partnerLeft", (msg) => {
@@ -63,23 +107,9 @@ class Chat {
       displayMessageOnLogin(msg);
     });
 
-    this.socket.on("reconnect", () => {
-      console.log("reconnected.");
-      notification.style.display = "none";
-      notification.classList.remove("is-danger");
-      const div = document.querySelector("#notification div");
-      div.textContent = "";
-    });
-
     this.socket.on("notification", (msg, code) => {
       clearTimer();
       displayNotification(msg, code);
-    });
-
-    this.socket.once("connect_error", function () {
-      // pause your timer
-      console.log("connect error");
-      displayNotification("No internet connection.", "danger");
     });
 
     this.socket.on("system", function (userCount) {
@@ -96,7 +126,7 @@ class Chat {
       modal.classList.add("is-active");
       // clear your timer
       clearTimer();
-      that._removeChild(document.getElementById("msgContainer"));
+      that._removeChild(document.querySelector("#msgContainer .columns .column"));
     });
 
     exitBtn.addEventListener("click", () => {
@@ -186,7 +216,7 @@ class Chat {
         notification.style.display = "none";
       }
       mainPage.style.display = "none";
-      that._removeChild(document.getElementById("msgContainer"));
+      that._removeChild(document.querySelector("#msgContainer .columns .column"));
       landingPage.style.display = "block";
       navbar.style.display = "none";
       overlayBtn.classList.remove("is-loading");
@@ -206,54 +236,59 @@ class Chat {
   }
 
   _displayNewMsg(user, msg, direction) {
-    const container = document.getElementById("msgContainer");
+    const container = document.querySelector("#msgContainer .columns .column");
     let HTML = document.createElement("div");
 
     if (direction === "left") {
-      ["has-text-left", "is-size-6", "left-aligned"].forEach((e) => HTML.classList.add(e));
+      ["field", "has-text-left"].forEach((e) => HTML.classList.add(e));
       let html;
-      const leftMsg = document.querySelectorAll(".left-aligned");
-      const leftLastChild = leftMsg[leftMsg.length - 1];
+      // const leftMsg = document.querySelectorAll(".left-aligned");
+      // const leftLastChild = leftMsg[leftMsg.length - 1];
       if (msg.typing) {
-        console.log(msg);
-        if (leftMsg.length == 0 || leftLastChild.textContent !== `${user}: typing...`) {
-          html = `<span class="span"><strong>${user}: </strong></span><span class="span">typing...</span>`;
-          HTML.innerHTML = html;
-          container.appendChild(HTML);
-        }
+        // if (leftMsg.length == 0 || leftLastChild.textContent !== `${user}: typing...`) {
+        //   html = `<span class="span"><strong>${user}: </strong></span><span class="span">typing...</span>`;
+        //   HTML.innerHTML = html;
+        //   container.appendChild(HTML);
+        // }
       } else {
         if ("img" in msg) {
           // it's an image
           const img = new Image();
           img.onload = function () {
-            container.appendChild(img);
+            insertDOM(`<img src=${img.src}>`);
           };
           img.src = msg.img;
         } else {
-          if (leftMsg.length == 0 || leftLastChild.textContent === `${user}: typing...`) {
-            // remove typing child
-            container.removeChild(leftLastChild);
-            html = `<span class="span"><strong>${user}: </strong></span><span class="span">${msg.msg}</span>`;
-          } else {
-            html = `<span class="span"><strong>${user}: </strong></span><span class="span">${msg.msg}</span>`;
-          }
-          HTML.innerHTML = html;
-          container.appendChild(HTML);
+          // if (leftMsg.length == 0 || leftLastChild.textContent === `${user}: typing...`) {
+          //   // remove typing child
+          //   container.removeChild(leftLastChild);
+          //   html = `<span class="span"><strong>${user}: </strong></span><span class="span">${msg.msg}</span>`;
+          // } else {
+          //   html = `<span class="span"><strong>${user}: </strong></span><span class="span">${msg.msg}</span>`;
+          // }
+          // HTML.innerHTML = html;
+          // container.appendChild(HTML);
+          insertDOM(msg.msg);
         }
+        container.appendChild(HTML);
       }
     } else {
+      ["field", "has-text-right"].forEach((e) => HTML.classList.add(e));
       if ("img" in msg) {
         // it's an image
         const img = new Image();
         img.onload = function () {
-          container.appendChild(img);
+          insertDOM(`<img src=${img.src}>`);
         };
         img.src = msg.img;
       } else {
-        ["has-text-right", "is-size-6", "right-aligned"].forEach((e) => HTML.classList.add(e));
-        HTML.innerHTML = `<span class="span">${msg.msg}</span>`;
-        container.appendChild(HTML);
+        insertDOM(msg.msg);
       }
+      container.appendChild(HTML);
+    }
+
+    function insertDOM(domString) {
+      HTML.innerHTML = `<div class="control custom"><span class="msg has-background-white">${domString}</span></div>`;
     }
   }
 }

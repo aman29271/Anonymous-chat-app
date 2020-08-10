@@ -9,60 +9,83 @@
     <title>Anonymous chat App</title>
     <link rel="stylesheet" href="bulma.min.css" />
     <link rel="stylesheet" href="style.css" />
+    <script src="fontawesome.min.js"></script>
   </head>
   <body>
     <section class="section hero is-fullheight is-info" id="landingPage">
-      <div class="hero">
-        <div class="hero-body">
-          <div class="container has-text-centered">
-            <p class="title is-spaced">
-              Please Enter a name
-            </p>
-            <div class="field">
-              <div class="control">
-                <input type="text" class="input" placeholder="Name" required id="name" />
-              </div>
+      <div class="hero-body">
+        <div class="container has-text-centered">
+          <div class="title is-3 has-text-centered is-spaced">
+            Welcome to Anonymous Chat App
+          </div>
+          <p class="subtitle is-5 is-spaced">
+            Please Enter a name
+          </p>
+          <div class="field">
+            <div class="control">
+              <input type="text" class="input" placeholder="Name" required id="name" />
             </div>
-            <div class="is-danger" style="display: none; color: red;" id="info">
-              <span class="span">Name Already Taken</span>
-            </div>
-            <div class="field">
-              <div class="control">
-                <button class="button is-link" id="overlayBtn">Start</button>
-              </div>
+          </div>
+          <div class="is-danger" style="display: none; color: red;" id="info">
+            <span class="span">Name Already Taken</span>
+          </div>
+          <div class="field">
+            <div class="control">
+              <button class="button is-link" id="overlayBtn">Start</button>
             </div>
           </div>
         </div>
       </div>
     </section>
-    <section class="section hero is-fullheight has-background-grey-light" id="mainPage" style="display: none;">
-      <div class="container">
-        <div class="columns">
-          <div
-            class="column is-6-desktop is-8-tablet is-offset-3-desktop is-offset-2-tablet has-background-grey-lighter add-column"
-          >
-            <div class="navigation" id="simpleNavbar">
-              <div style="text-align: left;"><a class="button is-danger" id="exitBtn">Exit</a></div>
-              <div style="text-align: right;"><a class="button is-success" id="nextBtn">Next</a></div>
-            </div>
-            <div class="title is-3 has-text-centered is-spaced">
-              Welcome to Anonymous Chat App
-            </div>
-            <div class="subtitle is-5 has-text-centered is-spaced" id="subtitle">
-              Hello Aman.
-            </div>
-            <div class="subtitle has-text-centered" id="otherUser">
-              Congrats. You are connected to Name
-            </div>
-            <div class="subtitle has-text-centered" id="timer"></div>
-            <div id="msgContainer"></div>
-            <div class="field has-addons">
-              <div class="control add-control">
-                <input id="inputText" type="text" class="input" placeholder="Type Message Here" required />
+    <section class="section hero is-fullheight has-background-grey-light chat" id="mainPage" style="display: none;">
+      <div class="hero-body">
+        <div class="container">
+          <div class="columns">
+            <div
+              class="column is-6-desktop is-8-tablet is-offset-3-desktop is-offset-2-tablet has-background-grey-lighter add-column"
+            >
+              <div class="navigation" id="simpleNavbar">
+                <div style="text-align: left;"><a class="button is-danger" id="exitBtn">Exit</a></div>
+                <div style="text-align: right;"><a class="button is-success" id="nextBtn">Next</a></div>
               </div>
-              <div class="control">
-                <div class="buttons has-addons">
-                  <button class="button" id="cameraBtn">Camera</button>
+
+              <div class="subtitle is-5 has-text-centered is-spaced">Hello <strong id="subtitle">Aman.</strong></div>
+              <div class="subtitle has-text-centered">
+                Congrats. You are connected to <strong id="otherUser">Name</strong>
+              </div>
+              <div class="subtitle has-text-centered" id="timer"></div>
+              <div id="msgContainer">
+                <div class="columns">
+                  <div class="column">
+                    <!-- <div class="field has-text-left">
+                      <div class="control custom">
+                        <span class="msg has-background-white">HI</span>
+                      </div>
+                    </div>
+                    <div class="field has-text-left">
+                      <div class="control custom">
+                        <span class="msg has-background-white">How are you</span>
+                      </div>
+                    </div>
+                    <div class="field has-text-right">
+                      <div class="control custom">
+                        <span class="msg has-background-white">HI</span>
+                      </div>
+                    </div> -->
+                  </div>
+                </div>
+              </div>
+              <div class="field has-addons">
+                <div class="control add-control has-icons-right">
+                  <input id="inputText" type="text" class="input" placeholder="Type Message Here" required />
+                  <span
+                    class="icon is-medium has-text-link is-right"
+                    id="cameraBtn"
+                    style="pointer-events: auto; cursor: pointer;"
+                    ><i class="fas fa-camera"></i
+                  ></span>
+                </div>
+                <div class="control">
                   <button class="button is-link" id="btnSend">Send</button>
                 </div>
               </div>

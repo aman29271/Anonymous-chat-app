@@ -41,7 +41,7 @@ function startup() {
         const cameraOption = document.createElement("option");
         cameraOption.label = camera.label;
         cameraOption.value = camera.deviceId;
-        cameraOption.textContent = camera.deviceId;
+        cameraOption.textContent = camera.label != "" ? camera.label : camera.deviceId;
         return cameraOption;
       })
       .forEach((cameraOption) => listElement.add(cameraOption));
@@ -65,7 +65,7 @@ function startup() {
 
   // Listen for changes to media devices and update the list accordingly
   navigator.mediaDevices.addEventListener("devicechange", async () => {
-    const newCameraList = await getConnectedDevices("video");
+    const newCameraList = await getConnectedDevices("videoinput");
     updateCameraList(newCameraList);
   });
 
